@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 
 data = pd.read_csv("marketing_campaign.xls",sep='\t')
 data.Dt_Customer = pd.to_datetime(data.Dt_Customer,format="%d-%m-%Y")
-data.insert(2,"Age",2024-data.Year_Birth)
+data.insert(2,"Age",data.Dt_Customer.dt.year-data.Year_Birth)
 data["Marital_Status"] = data["Marital_Status"].replace({"Married":"Partner", "Together":"Partner", "Absurd":"Alone", "Widow":"Alone", "YOLO":"Alone", "Divorced":"Alone", "Single":"Alone",})
 data = data.dropna()
 data.insert(6,"Spent",data["MntWines"]+ data["MntFruits"]+ data["MntMeatProducts"]+ data["MntFishProducts"]+ data["MntSweetProducts"]+ data["MntGoldProds"])
@@ -36,8 +36,8 @@ histogram = sns.histplot(
 
 density_curve = sns.kdeplot(data.Age, linewidth=3, color="red")
 
-plt.xlabel("Age", labelpad=20)
-plt.ylabel("Density", labelpad=20)
+plt.xlabel("Età", labelpad=20)
+plt.ylabel("Densità", labelpad=20)
 plt.show()
 
 data = data[data.Age < 100]
@@ -61,8 +61,8 @@ histogram = sns.histplot(
 
 density_curve = sns.kdeplot(data.Income, linewidth=3, color="grey")
 
-plt.xlabel("Income", labelpad=20)
-plt.ylabel("Density", labelpad=20)
+plt.xlabel("Stipendio", labelpad=20)
+plt.ylabel("Densità", labelpad=20)
 plt.show()
 
 data = data[data.Income < 600000]
@@ -116,7 +116,7 @@ def autopct(pct):
 plt.figure(figsize=(15,9))
 plt.pie(counts_children, labels=counts_children.index, autopct=autopct, startangle=90)
 plt.axis('equal')
-plt.title('Figli')
+plt.title('Bambini')
 plt.show()
 
 counts_teen = data.Teenhome.value_counts()
@@ -149,7 +149,7 @@ def autopct(pct):
 plt.figure(figsize=(15,9))
 plt.pie(counts_figli, labels=counts_figli.index, autopct=autopct, startangle=90)
 plt.axis('equal')
-plt.title('Adolescenti')
+plt.title('Figli')
 plt.show()
 
 phd_data = data.loc[data.Education== 'PhD']
@@ -297,9 +297,10 @@ density_curve = sns.kdeplot(cycle_data.Income, linewidth=3, color="red")
 density_curve = sns.kdeplot(graduation_data.Income, linewidth=3, color="blue")
 density_curve = sns.kdeplot(basic_data.Income, linewidth=3, color="violet")
 
-plt.title("Income by education")
-plt.xlabel("Income", labelpad=20)
-plt.ylabel("Density", labelpad=20)
+plt.title("Distribuzione stipendio in base al livello di educazione")
+plt.xlabel("Stipendio", labelpad=20)
+plt.ylabel("Densità", labelpad=20)
+plt.legend()
 plt.show()
 
 s = (data.dtypes == 'object')
@@ -351,7 +352,7 @@ z =PCA_ds["col3"]
 fig = plt.figure(figsize=(10,8))
 ax = fig.add_subplot(111, projection="3d")
 ax.scatter(x,y,z, marker="o", c=z)
-ax.set_title("A 3D Projection Of Data In The Reduced Dimension")
+ax.set_title("Proiezione nello spazio 3D")
 plt.show()
 
 # Clustering
@@ -414,9 +415,9 @@ plt.scatter(newData1.Income, newData1.Spent, color='blue', label='Classe B')
 plt.scatter(newData2.Income, newData2.Spent, color='green', label='Classe C')
 
 # Etichette e titoli
-plt.xlabel('Income')
-plt.ylabel('Spent')
-plt.title('Scatter plot di Income vs Spent per Classe')
+plt.xlabel('Stipendio')
+plt.ylabel('Spesa')
+plt.title('Scatter plot dello stipendio vs spesa per Classe')
 plt.legend()
 
 from sklearn.metrics import silhouette_samples, silhouette_score
@@ -441,7 +442,7 @@ ax1.set_yticklabels([])
 ax1.set_ylabel("Cluster")
 
 # Etichetta sull'asse x
-ax1.set_xlabel("Silhouette coefficient values")
+ax1.set_xlabel("Silhouette")
 
 # Punti verticali che indicano l'average silhouette score
 ax1.axvline(x=silhouette_avg, color="red", linestyle="--")
@@ -468,7 +469,7 @@ for i in range(3):
     # Calcolare la nuova y_lower per il prossimo plot
     y_lower = y_upper + 10  # 10 per lo spazio bianco tra i plot
 
-plt.title("The silhouette plot for the various clusters.")
+plt.title("Silhouette dei cluster")
 plt.show()
 
 # Definizione dei colori per i cluster
@@ -532,22 +533,22 @@ plt.figure(figsize=(15, 8))
 plt.subplot(1, 3, 3)
 sns.countplot(x="Marital_Status", data=newData0, order=newData0["Marital_Status"].value_counts().index)
 plt.title('Classe A')
-plt.xlabel('Marital Status')
-plt.ylabel('Count')
+plt.xlabel('Stato matrimoniale')
+plt.ylabel('Conteggio')
 
 # Countplot per la classe 1
 plt.subplot(1, 3, 1)
 sns.countplot(x="Marital_Status", data=newData1, order=newData1["Marital_Status"].value_counts().index)
 plt.title('Classe B')
-plt.xlabel('Marital Status')
-plt.ylabel('Count')
+plt.xlabel('Stato matrimoniale')
+plt.ylabel('Conteggio')
 
 # Countplot per la classe 2
 plt.subplot(1, 3, 2)
 sns.countplot(x="Marital_Status", data=newData2, order=newData2["Marital_Status"].value_counts().index)
 plt.title('Classe C')
-plt.xlabel('Marital Status')
-plt.ylabel('Count')
+plt.xlabel('Stato matrimoniale')
+plt.ylabel('Conteggio')
 
 # Mostra i countplot
 plt.tight_layout()
@@ -638,22 +639,16 @@ plt.figure(figsize=(15, 8))
 plt.subplot(1, 3, 3)
 sns.boxplot(x="Class", y="Children", data=newData0, color='red')
 plt.title('Classe A')
-plt.xlabel('Classe')
-plt.ylabel('Numero di figli')
 
 # Boxplot per la classe 1
 plt.subplot(1, 3, 1)
 sns.boxplot(x="Class", y="Children", data=newData1, color='blue')
 plt.title('Classe B')
-plt.xlabel('Classe')
-plt.ylabel('Numero di figli')
 
 # Boxplot per la classe 2
 plt.subplot(1, 3, 2)
 sns.boxplot(x="Class", y="Children", data=newData2, color='green')
 plt.title('Classe C')
-plt.xlabel('Classe')
-plt.ylabel('Numero di figli')
 
 plt.tight_layout()
 plt.show()
@@ -718,6 +713,7 @@ accuracy_score(test_labels,pred_y)
 
 plt.figure(figsize = (10,7))
 sns.heatmap(cm, annot=True,fmt='g',cmap="YlGnBu")
+plt.show()
 
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
@@ -788,9 +784,13 @@ for model_name, model in models:
     print(classification_report(test_labels, pred_y))
 
     # Visualizzare la matrice di confusione
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_)
-    disp.plot(cmap=plt.cm.Blues)
-    plt.title(f'Confusion Matrix for {model_name}')
+    #disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_)
+    #disp.plot(cmap=plt.cm.Blues)
+    #plt.title(f'Confusion Matrix for {model_name}')
+    #plt.show()
+
+    plt.figure(figsize = (10,7))
+    sns.heatmap(cm, annot=True,fmt='g',cmap="YlGnBu")
     plt.show()
 
 
