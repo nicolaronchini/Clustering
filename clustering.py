@@ -155,23 +155,6 @@ plt.show()
 phd_data = data.loc[data.Education== 'PhD']
 #phd_data.head()
 
-plt.figure(figsize=(15, 9))
-
-histogram = sns.histplot(
-    phd_data.Income, 
-    bins=20, 
-    stat='density',
-    alpha=1,
-    color = "orange"
-)
-
-density_curve = sns.kdeplot(phd_data.Income, linewidth=3, color="red")
-
-plt.xlabel("Income", labelpad=20)
-plt.ylabel("Density", labelpad=20)
-plt.title("Phd income")
-#plt.show()
-
 mean_income = phd_data.Income.mean()
 median_income = phd_data.Income.median()
 std_income = phd_data.Income.std()
@@ -182,22 +165,6 @@ print("Standard deviation: " + str(std_income))
 basic_data = data.loc[data.Education== 'Basic']
 #basic_data.head()
 
-plt.figure(figsize=(15, 9))
-
-histogram = sns.histplot(
-    basic_data.Income, 
-    bins=20, 
-    stat='density',
-    alpha=0.5,
-    color = "green"
-)
-
-density_curve = sns.kdeplot(basic_data.Income, linewidth=3, color="green")
-
-plt.title("Basic Education Income")
-plt.xlabel("Income", labelpad=20)
-plt.ylabel("Density", labelpad=20)
-#plt.show()
 
 mean_income = basic_data.Income.mean()
 median_income = basic_data.Income.median()
@@ -209,22 +176,6 @@ print("Standard deviation: " + str(std_income))
 graduation_data = data.loc[data.Education== 'Graduation']
 #graduation_data.head()
 
-plt.figure(figsize=(15, 9))
-
-histogram = sns.histplot(
-    graduation_data.Income, 
-    bins=20, 
-    stat='density',
-    alpha=0.5,
-    color = "violet"
-)
-
-density_curve = sns.kdeplot(graduation_data.Income, linewidth=3, color="violet")
-
-plt.title("Graduation income")
-plt.xlabel("Income", labelpad=20)
-plt.ylabel("Density", labelpad=20)
-#plt.show()
 
 graduation_data = graduation_data[graduation_data.Income < 600000]
 
@@ -238,22 +189,6 @@ print("Standard deviation: " + str(std_income))
 cycle_data = data.loc[data.Education== '2n Cycle']
 #cycle_data.head()
 
-plt.figure(figsize=(15, 9))
-
-histogram = sns.histplot(
-    cycle_data.Income, 
-    bins=20, 
-    stat='density',
-    alpha=0.7,
-    color = "blue"
-)
-
-density_curve = sns.kdeplot(cycle_data.Income, linewidth=3, color="blue")
-
-plt.title("2dn cycle Income")
-plt.xlabel("Income", labelpad=20)
-plt.ylabel("Density", labelpad=20)
-#plt.show()
 
 mean_income = cycle_data.Income.mean()
 median_income = cycle_data.Income.median()
@@ -265,23 +200,6 @@ print("Standard deviation: " + str(std_income))
 master_data = data.loc[data.Education== 'Master']
 #master_data.head()
 
-plt.figure(figsize=(15, 9))
-
-histogram = sns.histplot(
-    master_data.Income, 
-    bins=20, 
-    stat='density',
-    alpha=0.5,
-    color = "green"
-)
-
-density_curve = sns.kdeplot(master_data.Income, linewidth=3, color="green")
-
-plt.title("Master income")
-plt.xlabel("Income", labelpad=20)
-plt.ylabel("Density", labelpad=20)
-#plt.show()
-
 mean_income = master_data.Income.mean()
 median_income = master_data.Income.median()
 std_income = master_data.Income.std()
@@ -291,17 +209,19 @@ print("Standard deviation: " + str(std_income))
 
 plt.figure(figsize=(15,10))
 
-density_curve = sns.kdeplot(phd_data.Income, linewidth=3, color="green")
-density_curve = sns.kdeplot(master_data.Income, linewidth=3, color="orange")
-density_curve = sns.kdeplot(cycle_data.Income, linewidth=3, color="red")
-density_curve = sns.kdeplot(graduation_data.Income, linewidth=3, color="blue")
-density_curve = sns.kdeplot(basic_data.Income, linewidth=3, color="violet")
+sns.kdeplot(phd_data.Income, linewidth=3, color="green", label="PhD")
+sns.kdeplot(master_data.Income, linewidth=3, color="orange", label="Master")
+sns.kdeplot(cycle_data.Income, linewidth=3, color="red", label="Cycle")
+sns.kdeplot(graduation_data.Income, linewidth=3, color="blue", label="Graduation")
+sns.kdeplot(basic_data.Income, linewidth=3, color="violet", label="Basic")
 
 plt.title("Distribuzione stipendio in base al livello di educazione")
 plt.xlabel("Stipendio", labelpad=20)
 plt.ylabel("Densità", labelpad=20)
+
 plt.legend()
 plt.show()
+
 
 s = (data.dtypes == 'object')
 object_cols = list(s[s].index)
